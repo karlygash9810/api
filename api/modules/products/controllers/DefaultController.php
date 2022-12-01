@@ -153,11 +153,10 @@ class DefaultController extends Controller
         $data =[];
         $min_price = Products::find()->min('price');
         $max_price = Products::find()->max('price');
-        $min = Products::find()->select(['*'])->where(['=','price',$min_price])->all();
-        $max = Products::find()->select(['*'])->where(['=','price',$max_price])->all();
-
-        $data['max_price'] =$max;
-        $data['min_price'] = $min;
+        $min = Products::find()->select(['id', 'price'])->where(['=','price',$min_price])->asArray()->all();
+        $max = Products::find()->select(['id', 'price'])->where(['=','price',$max_price])->asArray()->all();
+        $data['max'] = $max;
+        $data['min'] = $min;
         \Yii::$app->response->format = Response::FORMAT_JSON;
         return $data;
 
